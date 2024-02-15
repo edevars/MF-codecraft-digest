@@ -1,7 +1,7 @@
 "use client"
 import {  FormEvent } from 'react'
-import styles from './SuscriptionForm.module.sass'
 import { subscribeUser } from 'app/actions/suscriptorActions'
+import styles from './SuscriptionForm.module.sass'
 
 interface formData {
   target: {
@@ -32,8 +32,8 @@ export const SuscriptionForm = () => {
 
   return(
     <form onSubmit={handleSubmit} className={styles.SuscriptionForm}>
-      <input name='suscriptorName' type="text" placeholder='Maria'/>
-      <input name='suscriptorEmail' type="email" placeholder='you@cool.com'/>
+      <input name='suscriptorName' type="text" placeholder='Maria' required/>
+      <input name='suscriptorEmail' type="email" placeholder='you@cool.com' required/>
       <button type='submit'>Subscribe</button>
     </form>
   )
