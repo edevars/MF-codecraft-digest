@@ -1,0 +1,1 @@
+export const CODECRAFT_API = process.env.CODECRAFT_API as string
