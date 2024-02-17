@@ -1,0 +1,24 @@
+.TemplatesTable
+  border-spacing: $spacing-16 $spacing-12 
+  border-collapse: collapse
+  width: 100%
+  & > thead
+    text-align: left
+    background: $light-color
+    & > th
+      border-radius: $border-radius-16
+  tr
+    border-bottom: 1px solid $light-color
+  td,th
+    padding-left: $spacing-16
+    padding-top: $spacing-12
+    padding-bottom: $spacing-12
+    &:last-child
+      width: 50px
+      display: flex
+      justify-content: center
+  &__edit
+    border: none
+    background: transparent
+    color: $primary-color-70
+    cursor: pointer

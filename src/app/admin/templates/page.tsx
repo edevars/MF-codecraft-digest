@@ -1,4 +1,5 @@
 import { getTemplates } from "app/actions/templateActions"
+import { TemplatesTable } from "app/components/templates/TemplatesTable"
 
 export default async function Template() {
 
@@ -7,11 +8,7 @@ export default async function Template() {
   return (
     <section>
       <h1>Templates</h1>
-      {templates.map((template) => {
-        return <p key={template.id}>
-          {template.name}
-        </p>
-      })}
+      <TemplatesTable templates={templates} />
     </section>
   )
 }
