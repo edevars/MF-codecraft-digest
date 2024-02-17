@@ -1,5 +1,5 @@
 import { getTemplateById } from "app/actions/templateActions"
-import { MarkdownEditor } from "app/components/templates/MarkdownEditor/MarkdownEditor"
+import { TemplateForm } from "app/components/templates/TemplateForm"
 
 interface EditTemplateProps {
   params: {
@@ -14,7 +14,7 @@ export default async function EditTemplate({ params }: EditTemplateProps) {
   return (
     <section>
       <h1>Edit Template</h1>
-      <MarkdownEditor template={template} />
+      <TemplateForm template={template} />
     </section>
   )
 }

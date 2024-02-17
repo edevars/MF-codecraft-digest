@@ -1,4 +1,4 @@
-import { Aside } from "app/components/shared"
+import { Aside } from "app/components/shared/Aside"
 import styles from 'app/styles/AdminLayout.module.sass'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
