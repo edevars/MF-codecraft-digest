@@ -23,7 +23,7 @@ export const FileSelector = ({ file, attached_file, setFile }: FileSelectorProps
         <FaFileUpload />
         <span>Attach a file</span>
       </label>
-      <input type="file" name="file" id="file" onChange={handleFileChange}/>
+      <input type="file" name="file" id="file" onChange={handleFileChange} accept="image/*,application/pdf"/>
       {file && <p>Attached file: {file.name}</p>}
       {currentAttachedFile && <a href={currentAttachedFile} target="_blank">See previous attached file</a>}
     </div>
