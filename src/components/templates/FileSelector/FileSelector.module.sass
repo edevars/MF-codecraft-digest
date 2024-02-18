@@ -1,0 +1,30 @@
+.FileSelector
+  display: flex
+  flex-direction: column
+  row-gap: $spacing-8
+  margin-top: $spacing-16
+  & > input
+    width: 0.1px
+    height: 0.1px
+    opacity: 0
+    overflow: hidden
+    position: absolute
+    z-index: -1
+  & > label
+    max-width: 320px
+    display: flex
+    align-items: center
+    justify-content: center
+    column-gap: $spacing-8
+    padding: 0.5rem 1rem
+    border-radius: 0.5rem
+    background-color: $primary-color
+    color: $light-color
+    cursor: pointer
+    transition: background-color 0.3s
+    &:hover
+      background-color: $primary-color-70
+  & > p
+    margin: 0
+    color: $light-color-50
+    font-size: 0.875rem

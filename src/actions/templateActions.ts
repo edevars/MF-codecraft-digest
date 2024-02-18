@@ -32,14 +32,11 @@ export const getTemplateById = async (id: string) => {
   }
 }
 
-export const updateTemplate = async (template: templateDataType, id: number) => {
+export const updateTemplate = async (template: FormData, id: number) => {
   try {
     const response = await fetch(templateApiCalls.templateById(id), {
       method: "PUT",
-      body: JSON.stringify(template),
-      headers: new Headers({
-        "Content-Type": "application/json; charset=UTF-8",
-      }),
+      body: template
     })
     const newTemplate : templateDataType = await response.json()
     revalidateTag("template")

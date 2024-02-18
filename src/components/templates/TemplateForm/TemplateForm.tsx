@@ -1,9 +1,10 @@
 "use client"
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { Input } from "app/components/shared/Input";
 import { FaSave } from "react-icons/fa";
 import { Dropdown } from "app/components/shared/Dropdown";
+import { FileSelector } from "../FileSelector";
 import MDEditor from "@uiw/react-md-editor"
 import { ToastContainer, toast } from 'react-toastify';
 import { updateTemplate } from "app/actions/templateActions";
@@ -21,6 +22,7 @@ export const TemplateForm = ({ template, categories }: TemplateFormProps) => {
   const [name, setName] = useState(template.name)
   const [subject, setSubject] = useState(template.subject)
   const [content, setContent] = useState(template.content);
+  const [file, setFile] = useState<File | null>(null)
   const dropdownOptions: optionType[] = categories.map((category) => ({ id: category.id, value: category.topic }))
   const categoryById = dropdownOptions.find((option) => option.id === template.category_id) || dropdownOptions[0]
   const [selectedCategory, setSelectedCategory] = useState<optionType>(categoryById)
@@ -37,19 +39,25 @@ export const TemplateForm = ({ template, categories }: TemplateFormProps) => {
     setContent(value || '');
   }
 
-  const saveTemplate = async () => {
+
+  const saveTemplate = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
     try {
-      const newTemplate: templateDataType = {
-        ...template,
-        name,
-        subject,
-        content,
-        category_id: selectedCategory.id as number
+      const formData = new FormData()
+      formData.append('name', name)
+      formData.append('subject', subject)
+      formData.append('content', content)
+      formData.append('category_id', selectedCategory.id.toString())
+      if (file) {
+        formData.append('attached_file', file)
       }
-      const responseTemplate = await updateTemplate(newTemplate, newTemplate.id)
+
+      const responseTemplate = await updateTemplate(formData, template.id)
+     
       toast.success('Template saved successfully!', {
         theme: "colored"
       })
+
     } catch (error) {
       toast.error('Error saving template', {
         theme: "colored"
@@ -59,10 +67,11 @@ export const TemplateForm = ({ template, categories }: TemplateFormProps) => {
 
   return (
     <>
-      <form action={saveTemplate}>
+      <form onSubmit={saveTemplate}>
         <Input type="text" placeholder="Template name" value={name} onChange={onChangeName} name="name" label="Name" />
         <Input type="text" placeholder="Your subject" value={subject} onChange={onChangeSubject} name="subject" label="Subject" />
         <Dropdown options={dropdownOptions} selected={selectedCategory} onSelect={setSelectedCategory} label="Category" />
+        <FileSelector file={file} setFile={setFile} attached_file={template.attached_file}/>
         <h3>Body content</h3>
         <div data-color-mode="light">
           <MDEditor value={content} onChange={onChangeContent} height={400} />

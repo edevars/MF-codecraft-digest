@@ -5,6 +5,7 @@ type templateDataType = {
   content: string,
   category_id: number,
   category_topic?: number
+  attached_file: string | null,
 }
 
 type categoryDataType = {
