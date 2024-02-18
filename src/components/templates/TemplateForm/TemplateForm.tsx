@@ -5,6 +5,7 @@ import { Input } from "app/components/shared/Input";
 import { FaSave } from "react-icons/fa";
 import { Dropdown } from "app/components/shared/Dropdown";
 import MDEditor from "@uiw/react-md-editor"
+import { updateTemplate } from "app/actions/templateActions";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import styles from './TemplateForm.module.sass'
@@ -34,8 +35,20 @@ export const TemplateForm = ({ template, categories }: TemplateFormProps) => {
     setContent(value || '');
   }
 
+  const saveTemplate = async () => {
+    const newTemplate: templateDataType = {
+      ...template,
+      name,
+      subject,
+      content,
+      category_id: selectedCategory.id as number
+    }
+    const responseTemplate = await updateTemplate(newTemplate, newTemplate.id)
+    console.log(responseTemplate)
+  }
+
   return (
-    <form action="">
+    <form action={saveTemplate}>
       <Input type="text" placeholder="Template name" value={name} onChange={onChangeName} name="name" label="Name" />
       <Input type="text" placeholder="Your subject" value={subject} onChange={onChangeSubject} name="subject" label="Subject" />
       <Dropdown options={dropdownOptions} selected={selectedCategory} onSelect={setSelectedCategory} label="Category"/>
