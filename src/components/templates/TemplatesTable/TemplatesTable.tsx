@@ -17,6 +17,7 @@ export const TemplatesTable = (props: TemplatesTableProps) => {
         <tr key={template.id}>
           <td>{template.name}</td>
           <td>{template.subject}</td>
+          <td>{template.category_topic}</td>
           <td>
             <Link href={editUrl} className={styles.TemplatesTable__edit} aria-label="edit">
               <FaEdit />
@@ -33,6 +34,7 @@ export const TemplatesTable = (props: TemplatesTableProps) => {
         <tr>
           <th>Name</th>
           <th>Subject</th>
+          <th>Category</th>
           <th>Actions</th>
         </tr>
       </thead>

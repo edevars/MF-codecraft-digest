@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google'
 import 'app/styles/globals.css'
+import 'react-toastify/dist/ReactToastify.css';
 
 const font = Inter({ subsets: ['latin'] })
 
