@@ -1,0 +1,1 @@
+export { NewsletterTable } from './NewsletterTable'
