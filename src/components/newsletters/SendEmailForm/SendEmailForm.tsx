@@ -1,4 +1,5 @@
 import Lottie from 'react-lottie';
+import { ToastContainer, toast } from 'react-toastify'
 import { Input } from "app/components/shared/Input";
 import { Dropdown } from "app/components/shared/Dropdown";
 import { Button } from "app/components/shared/Button";
@@ -18,7 +19,7 @@ const emailAnimationOptions = {
   }
 };
 
-export const SendEmailForm = () => {
+export const SendEmailForm = ({ closeModal }: { closeModal: () => void }) => {
   const [name, setName] = useState('');
   const [templates, setTemplates] = useState<templateDataType[]>([]);
   const [recipients, setRecipients] = useState("");
@@ -52,47 +53,62 @@ export const SendEmailForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const procesedRecipients = recipients.split(',').map((recipient) => ({ email: recipient.trim() }));
-    const data = {
-      newsletter_name: name,
-      template_id: selectedTemplate.id,
-      recipients: sendToAll ? [] : procesedRecipients
-    };
+    try {
+      const procesedRecipients = recipients.split(',').map((recipient) => ({ email: recipient.trim() }));
+      const data = {
+        newsletter_name: name,
+        template_id: selectedTemplate.id,
+        recipients: sendToAll ? [] : procesedRecipients
+      };
 
-    setSending(true);
-    const response = await sendNewsletter(data);
-    setSending(false);
+      setSending(true);
+      const newsletter = await sendNewsletter(data);
+      if (newsletter.success) {
+        toast.success('Email sent successfully', { autoClose: 2000, theme: 'colored', onClose: () => closeModal() });
+      } else {
+        toast.error('There was an error sending the email', { autoClose: 3000, theme: 'colored' }
+        );
+      }
+    } catch (error) {
+      toast.error('There was an error sending the email', { autoClose: 3000, theme: 'colored' });
+    } finally {
+      setSending(false);
+    }
+
   }
 
   return (
-    <form className={styles.SendEmailForm} onSubmit={handleSubmit}>
-      <Input type="text" label="Name" name="name" placeholder="name" value={name} onChange={handleNameChange} required />
-      {dropdownOptions.length > 0 && <Dropdown options={dropdownOptions} selected={selectedTemplate} onSelect={handleSelect} label="Template" />}
-      <Input
-        type="text"
-        label="Recipients"
-        name="recipients"
-        placeholder="email1@io.com,email2@io.com"
-        value={recipients}
-        onChange={handleRecipientsChange}
-        disabled={sendToAll}
-      />
-      <span className={styles.SendEmailForm__disclaimer}>If you want to send more than one recipient separate them by comma (&quot;,&quot;)</span>
-      <label>
-        <input type="checkbox" checked={sendToAll} onChange={handleSendToAllChange} /> <span>Send to all suscriptors</span>
-      </label>
-      <div className={styles.SendEmailForm__buttonWrapper}>
-        <Button disabled={sending}>
-          <FaPaperPlane />
-          Send
-        </Button>
-      </div>
-      {sending && (
-        <div className={styles.SendEmailForm__animation}>
-          <Lottie options={emailAnimationOptions} height={100} width={100} />
-          <p>We are sending all the emails. <br /> This may take a few minutes</p>
+    <>
+      <form className={styles.SendEmailForm} onSubmit={handleSubmit}>
+        <Input type="text" label="Name" name="name" placeholder="name" value={name} onChange={handleNameChange} required />
+        {dropdownOptions.length > 0 && <Dropdown options={dropdownOptions} selected={selectedTemplate} onSelect={handleSelect} label="Template" />}
+        <Input
+          type="text"
+          label="Recipients"
+          name="recipients"
+          placeholder="email1@io.com,email2@io.com"
+          value={recipients}
+          onChange={handleRecipientsChange}
+          disabled={sendToAll}
+        />
+        <span className={styles.SendEmailForm__disclaimer}>If you want to send more than one recipient separate them by comma (&quot;,&quot;)</span>
+        <label>
+          <input type="checkbox" checked={sendToAll} onChange={handleSendToAllChange} /> <span>Send to all suscriptors</span>
+        </label>
+        <div className={styles.SendEmailForm__buttonWrapper}>
+          <Button disabled={sending}>
+            <FaPaperPlane />
+            Send
+          </Button>
         </div>
-      )}
-    </form>
+        {sending && (
+          <div className={styles.SendEmailForm__animation}>
+            <Lottie options={emailAnimationOptions} height={100} width={100} />
+            <p>We are sending all the emails. <br /> This may take a few minutes</p>
+          </div>
+        )}
+        <ToastContainer />
+      </form>
+    </>
   );
 };

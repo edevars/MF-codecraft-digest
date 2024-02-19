@@ -12,7 +12,7 @@ export const SendEmailModal = ({ closeModal }: SendEmailModalProps) => {
       <button onClick={closeModal} className={styles.SendEmailModal__button}>
       </button>
       <div className={styles.SendEmailModal__content}>
-        <SendEmailForm />
+        <SendEmailForm closeModal={closeModal} />
       </div>
     </div>
     ,

@@ -1,6 +1,6 @@
 "use server"
-
 import { newslettersApiCall } from "app/services/newslettersApiCall"
+import { revalidateTag } from "next/cache"
 
 export const getNewsletters = async () => {
   try {
@@ -27,15 +27,12 @@ export const sendNewsletter = async (data: {
       body: JSON.stringify(data),
       headers: {
         "Content-Type": "application/json"
-      },
-      next: {
-        tags: ["newsletters"]
       }
     })
     const emailResponse: { success: boolean, message: string, success_emails_sent: number } = await response.json()
+    revalidateTag("newsletters")
     return emailResponse
   } catch (error) {
-    console.log(error)
     throw new Error("__ERROR__SEND_NEWSLETTER")
   }
 }
