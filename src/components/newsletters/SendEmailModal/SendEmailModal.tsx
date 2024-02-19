@@ -1,16 +1,21 @@
 "use client"
-import styles from './SendEmailModal.module.sass';
+import { SendEmailForm } from '../SendEmailForm';
 import { createPortal } from 'react-dom';
-
+import styles from './SendEmailModal.module.sass';
 interface SendEmailModalProps {
   closeModal: () => void
 }
 
 export const SendEmailModal = ({ closeModal }: SendEmailModalProps) => {
   return createPortal(
-    <button className={styles.SendEmailModal} onClick={closeModal}>
-      <span>Modal</span>
-    </button>,
+    <div className={styles.SendEmailModal}>
+      <button onClick={closeModal} className={styles.SendEmailModal__button}>
+      </button>
+      <div className={styles.SendEmailModal__content}>
+        <SendEmailForm />
+      </div>
+    </div>
+    ,
     document.body
   )
 };

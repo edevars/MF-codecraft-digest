@@ -5,16 +5,25 @@ import styles from './Button.module.sass'
 
 interface ButtonProps {
   children: ReactNode,
-  onClick: () => void
-  disabled?: boolean
+  onClick?: () => void
+  disabled?: boolean,
+  type?: 'button' | 'submit' | 'reset'
 }
 
 export const Button = ({ children, onClick, disabled }: ButtonProps) => {
   return (
     <button 
       onClick={onClick} 
-      className={styles.Button}>
+      className={styles.Button}
+      disabled={disabled}
+      >
         {children}
       </button>
   )
+}
+
+Button.defaultProps = {
+  type: 'button',
+  disabled: false,
+  onclick: () => {}
 }

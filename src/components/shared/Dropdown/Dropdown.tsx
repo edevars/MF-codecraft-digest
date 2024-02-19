@@ -28,7 +28,7 @@ export const Dropdown = ({ options, selected, onSelect, label, disabled }: Dropd
   return (
     <div role="listbox" className={styles.Dropdown} >
       <h3 className={styles.Dropdown__label}>{label}</h3>
-      <button className={styles.Dropdown__button} onClick={handleOpen} disabled={disabled}>{selectedOption.value}</button>
+      <button className={styles.Dropdown__button} onClick={handleOpen} disabled={disabled}>{selectedOption?.value}</button>
       {isOpen && (
         <ul className={styles.Dropdown__list}>
           {options.map((option) => (

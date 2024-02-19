@@ -82,12 +82,12 @@ export const TemplateForm = ({ template, categories, type }: TemplateFormProps) 
 
   return (
     <>
-      <form onSubmit={saveTemplate}>
+      <form onSubmit={saveTemplate} className={styles.TemplateForm}>
         <Input type="text" placeholder="Template name" value={name} onChange={onChangeName} name="name" label="Name" />
         <Input type="text" placeholder="Your subject" value={subject} onChange={onChangeSubject} name="subject" label="Subject" />
         <Dropdown options={dropdownOptions} selected={selectedCategory} onSelect={setSelectedCategory} label="Category" />
         <FileSelector file={file} setFile={setFile} attached_file={template.attached_file} />
-        <h3>Body content</h3>
+        <h2>Body content</h2>
         <p>You cand add <code className={styles.TemplateForm__code}>{'{{name}}'}</code> to your template to add the name of your suscriptor.</p>
         <p className={styles.TemplateForm__disclaimer}>
           ⚠️ IMPORTANT: To show the name in the newsletter the suscriptor should be registered in the platform using the landing page.
