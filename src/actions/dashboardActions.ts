@@ -1,14 +1,10 @@
 "use server"
 import { dashboardApiCalls } from "app/services/dashboardApiCalls"
 
-const FIFTTEEN_MINUTES = 15 * 60 * 1000
-
 export const getDashboardInfo = async () => {
   try {
     const response = await fetch(dashboardApiCalls.info, {
-      next: {
-        revalidate: FIFTTEEN_MINUTES
-      }
+      cache: 'no-cache',
     })
     const info : dashboardResponseDataType = await response.json()
     return info
