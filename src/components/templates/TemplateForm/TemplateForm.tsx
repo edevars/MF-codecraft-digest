@@ -7,18 +7,19 @@ import { Dropdown } from "app/components/shared/Dropdown";
 import { FileSelector } from "../FileSelector";
 import MDEditor from "@uiw/react-md-editor"
 import { ToastContainer, toast } from 'react-toastify';
-import { updateTemplate } from "app/actions/templateActions";
+import { updateTemplate, createTemplate } from "app/actions/templateActions";
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import styles from './TemplateForm.module.sass'
 
 interface TemplateFormProps {
   template: templateDataType,
-  categories: categoryDataType[]
+  categories: categoryDataType[],
+  type: 'create' | 'update'
 }
 
 
-export const TemplateForm = ({ template, categories }: TemplateFormProps) => {
+export const TemplateForm = ({ template, categories, type }: TemplateFormProps) => {
   const [name, setName] = useState(template.name)
   const [subject, setSubject] = useState(template.subject)
   const [content, setContent] = useState(template.content);
@@ -26,6 +27,7 @@ export const TemplateForm = ({ template, categories }: TemplateFormProps) => {
   const dropdownOptions: optionType[] = categories.map((category) => ({ id: category.id, value: category.topic }))
   const categoryById = dropdownOptions.find((option) => option.id === template.category_id) || dropdownOptions[0]
   const [selectedCategory, setSelectedCategory] = useState<optionType>(categoryById)
+  const [processingAction, setProcessingAction] = useState(false)
 
   const onChangeName = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value)
@@ -52,16 +54,29 @@ export const TemplateForm = ({ template, categories }: TemplateFormProps) => {
         formData.append('attached_file', file)
       }
 
-      const responseTemplate = await updateTemplate(formData, template.id)
-     
-      toast.success('Template saved successfully!', {
-        theme: "colored"
-      })
+      setProcessingAction(true)
+
+      if (type === 'create') {
+        await createTemplate(formData)
+        toast.success('Template created successfully!', {
+          theme: "colored"
+        })
+      }
+
+      if (type === 'update') {
+        await updateTemplate(formData, template.id)
+
+        toast.success('Template saved successfully!', {
+          theme: "colored"
+        })
+      }
 
     } catch (error) {
       toast.error('Error saving template', {
         theme: "colored"
       })
+    } finally {
+      setProcessingAction(false)
     }
   }
 
@@ -71,7 +86,7 @@ export const TemplateForm = ({ template, categories }: TemplateFormProps) => {
         <Input type="text" placeholder="Template name" value={name} onChange={onChangeName} name="name" label="Name" />
         <Input type="text" placeholder="Your subject" value={subject} onChange={onChangeSubject} name="subject" label="Subject" />
         <Dropdown options={dropdownOptions} selected={selectedCategory} onSelect={setSelectedCategory} label="Category" />
-        <FileSelector file={file} setFile={setFile} attached_file={template.attached_file}/>
+        <FileSelector file={file} setFile={setFile} attached_file={template.attached_file} />
         <h3>Body content</h3>
         <p>You cand add <code className={styles.TemplateForm__code}>{'{{name}}'}</code> to your template to add the name of your suscriptor.</p>
         <p className={styles.TemplateForm__disclaimer}>
@@ -81,7 +96,7 @@ export const TemplateForm = ({ template, categories }: TemplateFormProps) => {
           <MDEditor value={content} onChange={onChangeContent} height={400} />
         </div>
         <div className={styles.TemplateForm__saveButtonWrapper}>
-          <button>
+          <button disabled={processingAction}>
             <FaSave /> Save
           </button>
         </div>

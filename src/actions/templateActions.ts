@@ -45,3 +45,17 @@ export const updateTemplate = async (template: FormData, id: number) => {
     throw new Error("__ERROR__UPDATE_TEMPLATE")
   }
 }
+
+export const createTemplate = async (template: FormData) => {
+  try {
+    const response = await fetch(templateApiCalls.templates, {
+      method: "POST",
+      body: template
+    })
+    const newTemplate : templateDataType = await response.json()
+    revalidateTag("template")
+    return newTemplate
+  } catch (error) {
+    throw new Error("__ERROR__CREATE_TEMPLATE")
+  }
+}

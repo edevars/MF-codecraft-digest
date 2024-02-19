@@ -16,7 +16,7 @@ export default async function EditTemplate({ params }: EditTemplateProps) {
   return (
     <section>
       <h1>Edit Template</h1>
-      <TemplateForm template={template} categories={categories} />
+      <TemplateForm template={template} categories={categories} type="update"/>
     </section>
   )
 }

@@ -19,7 +19,7 @@ export default async function CreateTemplate() {
   return (
     <section>
       <h1>Create Template</h1>
-      <TemplateForm template={template} categories={categories} />
+      <TemplateForm template={template} categories={categories} type="create"/>
     </section>
   )
 }
