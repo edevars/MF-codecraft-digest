@@ -1,3 +1,4 @@
+import Lottie from 'react-lottie';
 import { Input } from "app/components/shared/Input";
 import { Dropdown } from "app/components/shared/Dropdown";
 import { Button } from "app/components/shared/Button";
@@ -5,7 +6,17 @@ import { useEffect, useState } from "react";
 import { getTemplates } from "app/actions/templateActions";
 import { FaPaperPlane } from "react-icons/fa";
 import { sendNewsletter } from "app/actions/newslettersActions";
+import emailAnimation from "app/animations/email.json";
 import styles from './SendEmailForm.module.sass'
+
+const emailAnimationOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: emailAnimation,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice'
+  }
+};
 
 export const SendEmailForm = () => {
   const [name, setName] = useState('');
@@ -71,11 +82,17 @@ export const SendEmailForm = () => {
         <input type="checkbox" checked={sendToAll} onChange={handleSendToAllChange} /> <span>Send to all suscriptors</span>
       </label>
       <div className={styles.SendEmailForm__buttonWrapper}>
-        <Button>
+        <Button disabled={sending}>
           <FaPaperPlane />
           Send
         </Button>
       </div>
+      {sending && (
+        <div className={styles.SendEmailForm__animation}>
+          <Lottie options={emailAnimationOptions} height={100} width={100} />
+          <p>We are sending all the emails. <br /> This may take a few minutes</p>
+        </div>
+      )}
     </form>
   );
 };
