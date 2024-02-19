@@ -24,3 +24,22 @@ export const subscribeUser = async (userData: userDataType) => {
     throw new Error("__ERROR__SUBSCRIBE_USER")
   }
 }
+
+export const unsubscribeUser = async (email: string) => {
+  try {
+    const response = await fetch(suscriptorApiCalls.subscribre, {
+      method: 'PUT',
+      body: JSON.stringify({
+        email,
+        suscribed: false
+      }),
+      headers: new Headers({
+        "Content-Type": "application/json; charset=UTF-8",
+      })
+    })
+    const susbscriptorResponse : userDataType = await response.json()
+    return susbscriptorResponse
+  } catch (error) {
+    throw new Error("__ERROR__UNSUBSCRIBE_USER")
+  }
+}
