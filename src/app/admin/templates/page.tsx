@@ -4,6 +4,8 @@ import { getTemplates } from "app/actions/templateActions"
 import { TemplatesTable } from "app/components/templates/TemplatesTable"
 import styles from 'app/styles/AdminTemplates.module.sass'
 
+export const dynamic = "force-dynamic"
+
 export default async function Template() {
 
   const templates = await getTemplates()

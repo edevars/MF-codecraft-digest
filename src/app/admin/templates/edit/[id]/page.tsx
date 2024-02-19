@@ -2,6 +2,7 @@ import { getCategories } from "app/actions/categoriesActions"
 import { getTemplateById } from "app/actions/templateActions"
 import { TemplateForm } from "app/components/templates/TemplateForm"
 
+export const dynamic = "force-dynamic"
 interface EditTemplateProps {
   params: {
     id: string

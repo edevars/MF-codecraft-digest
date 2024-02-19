@@ -1,6 +1,7 @@
 import { getDashboardInfo } from "app/actions/dashboardActions"
 import styles from 'app/styles/Dashboard.module.sass'
 
+export const dynamic = "force-dynamic"
 
 export default async function DashboardPage() {
 
