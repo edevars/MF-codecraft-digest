@@ -64,10 +64,14 @@ export const SendEmailForm = ({ closeModal }: { closeModal: () => void }) => {
       setSending(true);
       const newsletter = await sendNewsletter(data);
       if (newsletter.success) {
-        toast.success('Email sent successfully', { autoClose: 2000, theme: 'colored', onClose: () => closeModal() });
+        let successMessage = recipients.length > newsletter.success_emails_sent ? `Email sent successfully to ${newsletter.success_emails_sent} recipients` : 'Email sent successfully';
+        if (newsletter.success_emails_sent === 0) {
+          toast.error('All recipients are unsubscribed', { autoClose: 5000, theme: 'colored' });
+        } else {
+          toast.success(successMessage, { autoClose: 2000, theme: 'colored', onClose: () => closeModal() });
+        }
       } else {
-        toast.error('There was an error sending the email', { autoClose: 3000, theme: 'colored' }
-        );
+        toast.error('There was an error sending the email', { autoClose: 3000, theme: 'colored' });
       }
     } catch (error) {
       toast.error('There was an error sending the email', { autoClose: 3000, theme: 'colored' });
