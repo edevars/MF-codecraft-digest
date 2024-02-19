@@ -3,8 +3,9 @@ import { Dropdown } from "app/components/shared/Dropdown";
 import { Button } from "app/components/shared/Button";
 import { useEffect, useState } from "react";
 import { getTemplates } from "app/actions/templateActions";
-import styles from './SendEmailForm.module.sass'
 import { FaPaperPlane } from "react-icons/fa";
+import { sendNewsletter } from "app/actions/newslettersActions";
+import styles from './SendEmailForm.module.sass'
 
 export const SendEmailForm = () => {
   const [name, setName] = useState('');
@@ -13,6 +14,7 @@ export const SendEmailForm = () => {
   const [sendToAll, setSendToAll] = useState(false);
   const dropdownOptions = templates.map((template) => ({ id: template.id, value: template.name }));
   const [selectedTemplate, setSelectedTemplate] = useState<optionType>(dropdownOptions[0]);
+  const [sending, setSending] = useState(false);
 
   const handleSelect = (option: optionType) => {
     setSelectedTemplate(option);
@@ -37,21 +39,23 @@ export const SendEmailForm = () => {
     setSendToAll(e.target.checked);
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const procesedRecipients = recipients.split(',').map((recipient) => recipient.trim());
+    const procesedRecipients = recipients.split(',').map((recipient) => ({ email: recipient.trim() }));
     const data = {
-      name,
-      templateId: selectedTemplate.id,
+      newsletter_name: name,
+      template_id: selectedTemplate.id,
       recipients: sendToAll ? [] : procesedRecipients
     };
 
-    console.log(data);
+    setSending(true);
+    const response = await sendNewsletter(data);
+    setSending(false);
   }
 
   return (
     <form className={styles.SendEmailForm} onSubmit={handleSubmit}>
-      <Input type="text" label="Name" name="name" placeholder="name" value={name} onChange={handleNameChange} required/>
+      <Input type="text" label="Name" name="name" placeholder="name" value={name} onChange={handleNameChange} required />
       {dropdownOptions.length > 0 && <Dropdown options={dropdownOptions} selected={selectedTemplate} onSelect={handleSelect} label="Template" />}
       <Input
         type="text"
