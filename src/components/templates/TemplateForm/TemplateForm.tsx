@@ -90,7 +90,7 @@ export const TemplateForm = ({ template, categories, type }: TemplateFormProps) 
         <h3>Body content</h3>
         <p>You cand add <code className={styles.TemplateForm__code}>{'{{name}}'}</code> to your template to add the name of your suscriptor.</p>
         <p className={styles.TemplateForm__disclaimer}>
-          ⚠️ IMPORTANT: To show the name in the newsletter the email must be sent to all the database.
+          ⚠️ IMPORTANT: To show the name in the newsletter the suscriptor should be regeristered in the platform using the landing page.
         </p>
         <div data-color-mode="light">
           <MDEditor value={content} onChange={onChangeContent} height={400} />

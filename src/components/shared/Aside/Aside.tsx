@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import styles from './Aside.module.sass'
 
-import { FaEnvelope, FaChartPie, FaCode, FaList } from 'react-icons/fa';
+import { FaEnvelope, FaChartPie, FaCode } from 'react-icons/fa';
 
 export const Aside = () => {
   return (
@@ -15,10 +15,6 @@ export const Aside = () => {
         <li>
           <FaCode />
           <Link href="/admin/templates">Templates</Link>
-        </li>
-        <li>
-          <FaList />
-          <Link href="/admin/categories">Categories</Link>
         </li>
         <li>
           <FaChartPie />

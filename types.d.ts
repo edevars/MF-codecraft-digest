@@ -13,4 +13,14 @@ type categoryDataType = {
   topic: string
 }
 
+type newsletterDataType = {
+  id?: number,
+  name: string,
+  template_id: number,
+  template_name: string,
+  template_topic: string,
+  date_sent: string,
+  count_sent: number,
+}
+
 type optionType = { id: string | number; value: string }
