@@ -4,7 +4,7 @@ type templateDataType = {
   subject: string,
   content: string,
   category_id: number,
-  category_topic?: number
+  category_topic?: string
   attached_file: string | null,
 }
 
