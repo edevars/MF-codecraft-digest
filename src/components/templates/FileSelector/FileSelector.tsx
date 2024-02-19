@@ -10,7 +10,7 @@ interface FileSelectorProps {
 }
 
 export const FileSelector = ({ file, attached_file, setFile }: FileSelectorProps) => {
-  const currentAttachedFile = attached_file ? `${NEXT_PUBLIC_BACKEND_HOST}/${attached_file}` : null
+  const currentAttachedFile = attached_file ? `${NEXT_PUBLIC_BACKEND_HOST}${attached_file}` : null
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setFile(e.target.files[0]);
