@@ -24,3 +24,10 @@ type newsletterDataType = {
 }
 
 type optionType = { id: string | number; value: string }
+
+type dashboardResponseDataType = {
+  suscriptors: number,
+  unsubscribed: number,
+  total_sent: number,
+  more_sent_template: string,
+}

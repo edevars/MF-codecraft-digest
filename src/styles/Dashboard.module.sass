@@ -1,0 +1,24 @@
+.Dashboard
+  display: grid
+  grid-template-columns: repeat(auto-fill, minmax(300px, 420px))
+  justify-content: center
+  gap: $spacing-32
+  & > article
+    background: $light-color
+    padding: $spacing-16
+    border-radius: $border-radius-12
+    & > p
+      text-align: center
+      display: flex
+      flex-direction: column
+      justify-content: center
+      align-items: center
+      row-gap: $spacing-16
+      & > b
+      color: $primary-color
+      font-size: 1.5rem
+      & > span
+        color: $contrast-color
+        font-size: 5rem
+        font-weight: 700
+      
